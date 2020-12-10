@@ -12,7 +12,9 @@ const (
 	FeeTypeOrderExpire  = "expire"
 	FeeTypeOrderDeal    = "deal"
 	FeeTypeOrderReceive = "receive"
-	TestTokenPair       = common.TestToken + "_" + sdk.DefaultBondDenom
+
 	BuyOrder            = "BUY"
 	SellOrder           = "SELL"
 )
+
+var TestTokenPair       = common.TestToken + "_" + sdk.DefaultBondDenom

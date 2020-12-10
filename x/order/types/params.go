@@ -9,17 +9,17 @@ import (
 )
 
 // nolint
-const (
+var (
 	// System param
-	DefaultOrderExpireBlocks = 259200 // order will be expired after 86400 blocks.
-	DefaultMaxDealsPerBlock  = 1000   // deals limit per block
+	DefaultOrderExpireBlocks int64 = 259200 // order will be expired after 86400 blocks.
+	DefaultMaxDealsPerBlock int64  = 1000   // deals limit per block
 
 	// Fee param
 	DefaultFeeAmountPerBlock     = "0" // okt
 	DefaultFeeDenomPerBlock      = common.NativeToken
 	DefaultFeeRateTrade          = "0.001" // percentage
-	DefaultNewOrderMsgGasUnit    = 40000
-	DefaultCancelOrderMsgGasUnit = 30000
+	DefaultNewOrderMsgGasUnit uint64    = 40000
+	DefaultCancelOrderMsgGasUnit uint64 = 30000
 )
 
 // nolint : Parameter keys

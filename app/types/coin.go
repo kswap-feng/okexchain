@@ -12,12 +12,14 @@ const (
 	// - Governance parameters: denomination used for spam prevention in proposal deposits
 	// - Crisis parameters: constant fee denomination used for spam prevention to check broken invariant
 	// - EVM parameters: denomination used for running EVM state transitions in OKExChain.
-	NativeToken string = sdk.DefaultBondDenom
+
 
 	// BaseDenomUnit defines the base denomination unit for Photons.
 	// 1 photon = 1x10^{BaseDenomUnit} aphoton
 	BaseDenomUnit = 18
 )
+
+var NativeToken string = sdk.DefaultBondDenom
 
 // NewPhotonCoin is a utility function that returns an "aphoton" coin with the given sdk.Int amount.
 // The function will panic if the provided amount is negative.

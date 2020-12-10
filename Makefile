@@ -16,6 +16,7 @@ ServerName=okexchaind
 ClientName=okexchaincli
 # the height of the 1st block is GenesisHeight+1
 GenesisHeight=0
+DefaultBondDenom=okt
 
 # process linker flags
 ifeq ($(VERSION),)
@@ -39,6 +40,7 @@ ldflags = -X $(GithubTop)/cosmos/cosmos-sdk/version.Version=$(Version) \
   -X $(GithubTop)/cosmos/cosmos-sdk/version.CosmosSDK=$(CosmosSDK) \
   -X $(GithubTop)/cosmos/cosmos-sdk/version.Tendermint=$(Tendermint) \
   -X $(GithubTop)/cosmos/cosmos-sdk/version.BuildTags=$(build_tags) \
+  -X $(GithubTop)/cosmos/cosmos-sdk/types.DefaultBondDenom=$(DefaultBondDenom) \
   -X $(GithubTop)/tendermint/tendermint/types.startBlockHeightStr=$(GenesisHeight) \
 
 
@@ -57,8 +59,7 @@ okexchain:
 	go install -v $(BUILD_FLAGS) -tags "$(BUILD_TAGS)" ./cmd/okexchaincli
 
 testnet:
-	go install -v $(BUILD_TESTNET_FLAGS) -tags "$(BUILD_TAGS)" ./cmd/okexchaind
-	go install -v $(BUILD_TESTNET_FLAGS) -tags "$(BUILD_TAGS)" ./cmd/okexchaincli
+	$(MAKE) DefaultBondDenom=tokt install
 
 test-unit:
 	@VERSION=$(VERSION) go test -mod=readonly -tags='ledger test_ledger_mock' ./app/...

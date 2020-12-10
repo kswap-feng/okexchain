@@ -3,9 +3,8 @@ package types
 
 import (
 	"fmt"
-	"time"
-
 	orderTypes "github.com/okex/okexchain/x/order/types"
+	"time"
 )
 
 const (
@@ -20,7 +19,6 @@ const (
 
 	BuyOrder      = orderTypes.BuyOrder
 	SellOrder     = orderTypes.SellOrder
-	TestTokenPair = orderTypes.TestTokenPair
 
 	FeeTypeOrderNew     = orderTypes.FeeTypeOrderNew
 	FeeTypeOrderCancel  = orderTypes.FeeTypeOrderCancel
@@ -28,6 +26,8 @@ const (
 	FeeTypeOrderDeal    = orderTypes.FeeTypeOrderDeal
 	FeeTypeOrderReceive = orderTypes.FeeTypeOrderReceive
 )
+
+var TestTokenPair = orderTypes.TestTokenPair
 
 type Ticker struct {
 	Symbol           string  `json:"symbol"`
