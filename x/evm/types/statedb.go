@@ -59,7 +59,7 @@ type CommitStateDB struct {
 	// The refund counter, also used by state transitioning.
 	refund uint64
 
-	thash, bhash ethcmn.Hash
+	thash, BHash ethcmn.Hash
 	txIndex      int
 	logSize      uint
 
@@ -214,7 +214,7 @@ func (csdb *CommitStateDB) AddLog(log *ethtypes.Log) {
 	csdb.journal.append(addLogChange{txhash: csdb.thash})
 
 	log.TxHash = csdb.thash
-	log.BlockHash = csdb.bhash
+	log.BlockHash = csdb.BHash
 	log.TxIndex = uint(csdb.txIndex)
 	log.Index = csdb.logSize
 
@@ -345,7 +345,7 @@ func (csdb *CommitStateDB) TxIndex() int {
 
 // BlockHash returns the current block hash set by Prepare.
 func (csdb *CommitStateDB) BlockHash() ethcmn.Hash {
-	return csdb.bhash
+	return csdb.BHash
 }
 
 // GetCode returns the code for a given account.
@@ -696,7 +696,7 @@ func (csdb *CommitStateDB) Reset(_ ethcmn.Hash) error {
 	csdb.addressToObjectIndex = make(map[ethcmn.Address]int)
 	csdb.stateObjectsDirty = make(map[ethcmn.Address]struct{})
 	csdb.thash = ethcmn.Hash{}
-	csdb.bhash = ethcmn.Hash{}
+	csdb.BHash = ethcmn.Hash{}
 	csdb.txIndex = 0
 	csdb.logSize = 0
 	csdb.preimages = []preimageEntry{}
@@ -744,9 +744,8 @@ func (csdb *CommitStateDB) clearJournalAndRefund() {
 
 // Prepare sets the current transaction hash and index and block hash which is
 // used when the EVM emits new state logs.
-func (csdb *CommitStateDB) Prepare(thash, bhash ethcmn.Hash, txi int) {
+func (csdb *CommitStateDB) Prepare(thash ethcmn.Hash, txi int) {
 	csdb.thash = thash
-	csdb.bhash = bhash
 	csdb.txIndex = txi
 }
 
@@ -797,7 +796,7 @@ func CopyCommitStateDB(from, to *CommitStateDB) {
 	to.hashToPreimageIndex = make(map[ethcmn.Hash]int, len(from.hashToPreimageIndex))
 	to.journal = newJournal()
 	to.thash = from.thash
-	to.bhash = from.bhash
+	to.BHash = from.BHash
 	to.txIndex = from.txIndex
 	validRevisions := make([]revision, len(from.validRevisions))
 	copy(validRevisions, from.validRevisions)
