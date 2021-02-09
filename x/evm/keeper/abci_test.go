@@ -11,6 +11,7 @@ import (
 )
 
 func (suite *KeeperTestSuite) TestBeginBlock() {
+	blockHash := []byte("test hash1")
 	req := abci.RequestBeginBlock{
 		Header: abci.Header{
 			LastBlockId: abci.BlockID{
@@ -18,6 +19,7 @@ func (suite *KeeperTestSuite) TestBeginBlock() {
 			},
 			Height: 10,
 		},
+		Hash: blockHash,
 	}
 
 	// get the initial consumption
@@ -39,9 +41,9 @@ func (suite *KeeperTestSuite) TestBeginBlock() {
 
 	suite.Require().Equal(int64(initialConsumed), int64(suite.ctx.GasMeter().GasConsumed()))
 
-	lastHeight, found := suite.app.EvmKeeper.GetBlockHash(suite.ctx, req.Header.LastBlockId.Hash)
+	curHeight, found := suite.app.EvmKeeper.GetBlockHash(suite.ctx, req.Hash)
 	suite.Require().True(found)
-	suite.Require().Equal(int64(9), lastHeight)
+	suite.Require().Equal(int64(10), curHeight)
 }
 
 func (suite *KeeperTestSuite) TestEndBlock() {
@@ -71,7 +73,8 @@ func (suite *KeeperTestSuite) TestResetCache() {
 	thash := ethcmn.BytesToHash([]byte("thash"))
 	bhash := ethcmn.BytesToHash([]byte("bhash"))
 	txi := 2
-	suite.app.EvmKeeper.CommitStateDB.Prepare(thash, bhash, txi)
+	suite.app.EvmKeeper.CommitStateDB.Prepare(thash, txi)
+	suite.app.EvmKeeper.CommitStateDB.BHash = bhash
 
 	// fill logSize
 	contractAddress := ethcmn.BigToAddress(big.NewInt(1))
